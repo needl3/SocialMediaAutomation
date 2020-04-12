@@ -20,7 +20,7 @@ git clone https://github.com/anish-chapagai/SocialMediaAutomationBundle.git
 2) Install its requirements using:
 
 ```
-pip install Requirements.txt
+pip install -r Requirements.txt
 ```
 
 3) Run the script from inside this directory as:
