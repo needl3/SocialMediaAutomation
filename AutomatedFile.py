@@ -23,15 +23,50 @@ from selenium.common.exceptions import NoSuchElementException, InvalidArgumentEx
 import itertools as it
 import time
 import string
+import random
 
 #Global Section
 social_media_list = {
-	1: ['facebook', 'https://www.facebook.com/login', 'email','pass'],
+	1: ['facebook', 'https://m.facebook.com/login', 'email','pass'],
 	2: ['instagram', 'https://www.instagram.com/accounts/login','username', 'password'],
 	3: ['twitter', 'https://www.twitter.com/login', 'session[username_or_email]', 'session[password]'],
 	4: ['google', 'https://accounts.google.com/','identifier','password'],
 	}
 choice = 0
+
+def random_comments():
+	return random.choice([
+	'Haha! Good One.',
+	'You can do it',
+	'Shit',
+	'Hello',
+	'CutiePie',
+	'Made by singularity',
+	'all hail physics',
+	'thanks',
+	'i\'ll not stop, sorry',
+	'good night',
+	'good morning',
+	'aae, you good?',
+	'whass up mah nigga',
+	'thanks',
+	'thanks selenium',
+	'ooh yeah',
+	'good luck',
+	'imma supa hot',
+	'im not a rapper',
+	'you got problems man?',
+	'washing powder nirma',
+	'munna bhai mbbs',
+	'munni badnaam hui darlin tere liye',
+	'butiful picture',
+	'you need medication',
+	'you high?',
+	'leave at the tone',
+	'watch vikings',
+	'watch the big bang theory',
+	'watch the expanse'
+	])
 
 
 def bruteforcer(possible_characters, browser,length):
@@ -84,10 +119,30 @@ def bruteforcer(possible_characters, browser,length):
 	print('\n\nPassword Found\nPassword: {}'.format(pass1))
 
 def commentor(path_to_page):
+	
+	#Input Section--------------------
 	username = input("Enter your username...\n==>")
 	password = input("\nEnter your password...\n==>")
 	path_to_post = input("\nEnter the url of post you want to comment on...\n==>")
-	link_to_comment_box = ''
+
+	while True:
+		spam_length_flag = True
+		try:
+			comment_length = int(input("\nEnter how many times you want to spam comment...\n"))
+		except ValueError:
+			spam_length_flag = False
+			print("\nInvalid Input... Enter Valid number\n")
+		finally:
+			if spam_length_flag == True:
+				break
+	given_comment = input("\nEnter a comment to post or enter 0 to post randomly generated comments\n")
+	if given_comment == '0':
+		random_comment_flag = True
+	else:
+		random_comment_flag = False
+
+
+	link_to_comment_box = 'composerInput'
 	
 	#Open Browser
 	browser = webdriver.Chrome()
@@ -124,16 +179,17 @@ def commentor(path_to_page):
 		return
 	#Find the comment Box
 	time.sleep(5)
-	try:
-		comment_box = browser.find_element_by_id(link_to_comment_box)
-		comment_box.click()
-
-		comment_element = browser.find_element_by_id()
-		#Fill the comment Box and Submit
-		comment_element.send_keys("Mike testing")
-	except NoSuchElementException:
-		print("Unable to Comment....")
-		return
+	for i in range(comment_length):
+		if random_comment_flag == True:
+			given_comment = random_comments()
+		try:
+			#Fill the comment Box and Submit
+				browser.find_element_by_id(link_to_comment_box).send_keys(given_comment)
+				browser.find_element_by_id(link_to_comment_box).submit()
+				time.sleep(2)
+		except NoSuchElementException:
+			print("Unable to Comment....")
+			return
 
 
 def bruteforce():
