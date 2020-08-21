@@ -14,7 +14,7 @@ How to install...
 1) Clone Repository using:
 
 ```
-git clone https://github.com/anish-chapagai/SocialMediaAutomationBundle.git
+git clone https://github.com/aryas-needle/SocialMediaAutomationBundle.git
 ```
 
 2) Install its requirements using:
