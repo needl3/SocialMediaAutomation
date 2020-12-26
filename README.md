@@ -14,7 +14,7 @@ How to install...
 1) Clone Repository using:
 
 ```
-git clone https://github.com/aryas-needle/SocialMediaAutomationBundle.git
+git clone https://github.com/needl3/SocialMediaAutomationBundle.git
 ```
 
 2) Install its requirements using:
